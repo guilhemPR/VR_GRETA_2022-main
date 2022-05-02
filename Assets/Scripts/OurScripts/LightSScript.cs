@@ -2,22 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSScript : MonoBehaviour
+public class LightSScript : BaseInteractable
 {
     private bool LightState = false;
     public GameObject SpotLight;
-    public Renderer Plafonier; 
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Renderer Plafonier;
 
-    // Update is called once per frame
-    void Update()
+    protected override void ActionInstant()
     {
-        
+       fonctionTest();
     }
 
     public void fonctionTest()
