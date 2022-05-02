@@ -14,7 +14,6 @@ public class WarDrobeDoor :BaseInteractable
     private float _ActualAngleValue;
 
     private float FindAngleForRotate;
-    private bool _doorLinked = false;
     private Vector3 InteractorTransform;
     
     
@@ -28,7 +27,7 @@ public class WarDrobeDoor :BaseInteractable
 
     private void ApplyRotation()
     {
-        if (_doorLinked==true)
+        if (InteractableIsSelected==true)
         {
 
             _ActualAngleValue = PlacardTransformPivot.transform.eulerAngles.y;
@@ -48,13 +47,13 @@ public class WarDrobeDoor :BaseInteractable
 
     public void EnableLink(SelectEnterEventArgs args)
     {
-        _doorLinked = true;
+       
         InteractorTransform = args.interactorObject.transform.position;
     }
 
     public void DisableLink()
     {
-        _doorLinked = false;
+       
         InteractorTransform = Vector3.zero;
     }
 }

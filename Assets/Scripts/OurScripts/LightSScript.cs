@@ -15,6 +15,7 @@ public class LightSScript : BaseInteractable
 
     public void fonctionTest()
     {
+        
        Debug.Log("proute");
             LightState = !LightState;
 

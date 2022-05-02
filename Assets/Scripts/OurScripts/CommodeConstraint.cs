@@ -4,19 +4,37 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CommodeConstraint : MonoBehaviour
+public class CommodeConstraint : BaseInteractable
 {
-    private Vector3 _tiroirPosition;
+    public Transform tiroir; 
+    
+    private Vector3 _tiroirBasePosition;
+    private Quaternion _tiroirBaseRotation;
+
+    private Vector3 InteractorLastPosition; 
+    
+    private float[] TiroirMinMaxValue = new[] {-1.17f, -0.608f};
 
     private void Start()
     {
-        _tiroirPosition = transform.position;
+        _tiroirBasePosition = tiroir.position;
+        _tiroirBaseRotation = tiroir.rotation; 
     }
 
-    void Update()
+    protected override void ActionContinious(Vector3 LocalInteractorVector3)
     {
-        transform.position = new Vector3(_tiroirPosition.x, _tiroirPosition.y, math.clamp(transform.position.z,_tiroirPosition.z, -1f));
+     
+        
+        base.ActionContinious(LocalInteractorVector3); // ???
 
+        float movement =LocalInteractorVector3.z - InteractorLastPosition.z ;
+
+        tiroir.rotation = _tiroirBaseRotation;
+        tiroir.position = new Vector3(_tiroirBasePosition.x, _tiroirBasePosition.y,
+            math.clamp(movement, TiroirMinMaxValue[1], TiroirMinMaxValue[2])); 
+        
+        
+        InteractorLastPosition = LocalInteractorVector3; 
         
     }
 }

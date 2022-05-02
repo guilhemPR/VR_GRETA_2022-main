@@ -9,8 +9,8 @@ public class BaseInteractable : MonoBehaviour
 {
     public XRSimpleInteractable Interactable;
     [SerializeField]private bool actionInstantanee = true;
-    private bool InteractableIsSelected = false;  
-    private Vector3 InteractorVector3;
+    protected bool InteractableIsSelected = false;  
+    protected  Vector3 InteractorVector3;
     
     private void OnEnable()
     {
@@ -31,7 +31,7 @@ public class BaseInteractable : MonoBehaviour
         {
             InteractorVector3 = args.interactorObject.transform.position;
             InteractableIsSelected = true;
-            ActionContinious();
+            ActionContinious(InteractorVector3);
         }
         else
         {
@@ -55,7 +55,7 @@ public class BaseInteractable : MonoBehaviour
     }
     
     
-    protected virtual void ActionContinious()
+    protected virtual void ActionContinious(Vector3 LocalInteractorVector3)
     {
         
     }
