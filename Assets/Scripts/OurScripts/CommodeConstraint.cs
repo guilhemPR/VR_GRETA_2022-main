@@ -11,27 +11,36 @@ public class CommodeConstraint : BaseInteractable
     private Vector3 _tiroirBasePosition;
     private Quaternion _tiroirBaseRotation;
 
-    private Vector3 InteractorLastPosition; 
+    private Vector3 InteractorLastPosition = new Vector3(0,0,0); 
     
     private float[] TiroirMinMaxValue = new[] {-1.17f, -0.608f};
+    
 
-    private void Start()
+    protected  override void Start()
     {
-        _tiroirBasePosition = tiroir.position;
+        base.Start();
+        
+        _tiroirBasePosition = tiroir.localPosition;
         _tiroirBaseRotation = tiroir.rotation; 
     }
 
     protected override void ActionContinious(Vector3 LocalInteractorVector3)
     {
-     
-        
-        base.ActionContinious(LocalInteractorVector3); // ???
+        if (InteractorLastPosition.z ==  0)
+        {
+            InteractorLastPosition = LocalInteractorVector3;
+        }
 
-        float movement =LocalInteractorVector3.z - InteractorLastPosition.z ;
+     
+        base.ActionContinious(LocalInteractorVector3); // ???
+     
+        float movement = LocalInteractorVector3.z - InteractorLastPosition.z ;
+      
+    
 
         tiroir.rotation = _tiroirBaseRotation;
-        tiroir.position = new Vector3(_tiroirBasePosition.x, _tiroirBasePosition.y,
-            math.clamp(movement, TiroirMinMaxValue[1], TiroirMinMaxValue[2])); 
+        tiroir.localPosition = new Vector3(_tiroirBasePosition.x, _tiroirBasePosition.y,
+            math.clamp(tiroir.localPosition.z + movement, -1.17f, -0.608f)); 
         
         
         InteractorLastPosition = LocalInteractorVector3; 

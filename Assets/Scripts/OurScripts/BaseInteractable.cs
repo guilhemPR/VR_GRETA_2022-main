@@ -5,21 +5,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class BaseInteractable : MonoBehaviour
+public class BaseInteractable : InteractableOver
 {
-    public XRSimpleInteractable Interactable;
-    [SerializeField]private bool actionInstantanee = true;
+  
+    [SerializeField]protected bool actionInstantanee = true;
     protected bool InteractableIsSelected = false;  
-    protected  Vector3 InteractorVector3;
-    
-    private void OnEnable()
+    protected  Transform InteractorTransform;
+
+ 
+
+    protected  override  void OnEnable()
     {
+        base.OnEnable();
+        
         Interactable.selectEntered.AddListener(StartSelect);
         Interactable.selectExited.AddListener(StopSelect);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         Interactable.selectEntered.RemoveListener(StartSelect);
         Interactable.selectExited.RemoveListener(StopSelect);
        
@@ -29,9 +35,9 @@ public class BaseInteractable : MonoBehaviour
     {
         if (!actionInstantanee)
         {
-            InteractorVector3 = args.interactorObject.transform.position;
+            InteractorTransform = args.interactorObject.transform;
             InteractableIsSelected = true;
-            ActionContinious(InteractorVector3);
+         
         }
         else
         {
@@ -43,8 +49,9 @@ public class BaseInteractable : MonoBehaviour
     {
         if (!actionInstantanee)
         {
-            InteractorVector3 = Vector3.zero;
             InteractableIsSelected = false; 
+            InteractorTransform = null;
+         
         }
         
     }
@@ -58,6 +65,14 @@ public class BaseInteractable : MonoBehaviour
     protected virtual void ActionContinious(Vector3 LocalInteractorVector3)
     {
         
+    }
+    
+    private void Update()
+    {
+        if(InteractableIsSelected)
+        {
+            ActionContinious(InteractorTransform.position);
+        }
     }
     
     

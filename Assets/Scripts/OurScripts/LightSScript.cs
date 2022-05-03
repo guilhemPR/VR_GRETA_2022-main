@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightSScript : BaseInteractable
 {
-    private bool LightState = false;
+    public bool LightState = true;
     public GameObject SpotLight;
     public Renderer Plafonier;
 
@@ -16,12 +16,13 @@ public class LightSScript : BaseInteractable
     public void fonctionTest()
     {
         
-       Debug.Log("proute");
+      
             LightState = !LightState;
 
 
-            if (LightState == false)
+            if (!LightState)
             {
+              Debug.Log("ça marche");
                 SpotLight.SetActive(false);
                 Plafonier.material.DisableKeyword("_EMISSION");
                 
@@ -29,6 +30,7 @@ public class LightSScript : BaseInteractable
 
             if (LightState)
             {
+                Debug.Log("ça s'eteint");
                 SpotLight.SetActive(true);
                 Plafonier.material.EnableKeyword("_EMISSION");
             }
